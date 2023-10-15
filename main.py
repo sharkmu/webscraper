@@ -9,18 +9,15 @@ if "http://" or "https://" not in url:
 
 try: 
     response = requests.get(url)
-    # Check if the request was successful
-    if response.status_code == 200:
-        # Parse the HTML content using Beautiful Soup
-        soup = bs4(response.content, 'html.parser')
+    statCode = response.status_code
 
-        # Find all the anchor tags (links)
+    if statCode == 200:
+        soup = bs4(response.content, 'html.parser')
         links = soup.find_all('a')
 
-        # Print the links
         for link in links:
             print(link['href'])
     else:
-        print('Failed to retrieve the webpage.')
+        print(f'Failed to retrieve the webpage. Status code: {statCode}')
 except:
     print(f"Failed to request the given URL: {url}")
